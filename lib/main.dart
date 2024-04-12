@@ -1,3 +1,4 @@
+import 'package:devicial_mobile/materials/color.dart';
 import 'package:devicial_mobile/router.dart';
 import 'package:devicial_mobile/screen/login/login_page.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: ThemeColor.backgroundDark),
+        scaffoldBackgroundColor:
+            ThemeColor.backgroundDark, // Set the background color here
         useMaterial3: true,
       ),
       home: LoginPage(),

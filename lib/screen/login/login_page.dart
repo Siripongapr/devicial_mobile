@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColor.background,
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -72,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                     setState(() {
                       validate = !validate;
                     });
+                    Navigator.pushNamed(context, '/dashboard');
                   },
                   left: 86,
                   right: 86,
