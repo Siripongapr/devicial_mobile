@@ -1,4 +1,5 @@
 import 'package:devicial_mobile/screen/login/login_page.dart';
+import 'package:devicial_mobile/screen/login/register_page.dart';
 import 'package:flutter/material.dart';
 
 class RouterScreen {
@@ -8,6 +9,11 @@ class RouterScreen {
         return MaterialPageRoute(
             settings: const RouteSettings(name: '/login'),
             builder: (_) => LoginPage());
+      case '/register':
+        return MaterialPageRoute(
+            settings: const RouteSettings(name: '/register'),
+            builder: (_) => RegisterPage());
+
       // case '/register':
       //   return MaterialPageRoute(
       //       settings: const RouteSettings(name: '/register'),

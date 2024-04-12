@@ -61,7 +61,9 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextButtonWidget(
                       onPressed: () {
                         print('pressed');
+                        Navigator.pushNamed(context, '/register');
                       },
+                      text: 'create an account',
                     )),
                 ButtonWidget(
                   text: 'LOGIN',

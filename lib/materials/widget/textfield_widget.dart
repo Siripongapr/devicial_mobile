@@ -28,27 +28,30 @@ class TextFormFieldWidget extends StatelessWidget {
           EdgeInsets.only(top: top, bottom: bottom, left: left, right: right),
       child: SizedBox(
         height: 48,
-        child: TextField(
-          obscureText: false,
-          controller: controller,
-          decoration: InputDecoration(
-            prefixIcon: image.isNotEmpty
-                ? SizedBox(width: 27, child: Image.asset(image))
-                : null,
-            fillColor: ThemeColor.textBox,
-            filled: true,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(0),
-                borderSide: BorderSide.none),
-            label: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  hintText,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                  ),
-                )),
+        child: Container(
+          width: MediaQuery.of(context).size.width - left - right,
+          child: TextField(
+            obscureText: false,
+            controller: controller,
+            decoration: InputDecoration(
+              prefixIcon: image.isNotEmpty
+                  ? SizedBox(width: 27, child: Image.asset(image))
+                  : null,
+              fillColor: ThemeColor.textBox,
+              filled: true,
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(0),
+                  borderSide: BorderSide.none),
+              label: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    hintText,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )),
+            ),
           ),
         ),
       ),

@@ -2,8 +2,10 @@ import 'package:devicial_mobile/materials/color.dart';
 import 'package:flutter/material.dart';
 
 class TextButtonWidget extends StatelessWidget {
-  const TextButtonWidget({super.key, required this.onPressed});
+  const TextButtonWidget(
+      {super.key, required this.onPressed, this.text = 'default'});
   final void Function()? onPressed;
+  final String text;
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -20,9 +22,9 @@ class TextButtonWidget extends StatelessWidget {
           },
         ),
       ),
-      child: const Text(
-        'create an account',
-        style: TextStyle(
+      child: Text(
+        text,
+        style: const TextStyle(
           color: ThemeColor.fontBlack,
           decoration: TextDecoration.underline,
         ),
