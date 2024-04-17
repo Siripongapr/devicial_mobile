@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 class TextButtonWidget extends StatelessWidget {
   const TextButtonWidget(
-      {super.key, required this.onPressed, this.text = 'default'});
+      {super.key,
+      required this.onPressed,
+      this.text = 'default',
+      this.underline = true,
+      this.fontSize = 14});
   final void Function()? onPressed;
   final String text;
+  final bool underline;
+  final double fontSize;
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -21,12 +27,17 @@ class TextButtonWidget extends StatelessWidget {
                 .transparent; // Set overlay color to transparent when pressed
           },
         ),
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          EdgeInsets.symmetric(vertical: 0), // Set vertical padding
+        ),
       ),
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           color: ThemeColor.fontBlack,
-          decoration: TextDecoration.underline,
+          fontSize: fontSize,
+          decoration:
+              underline ? TextDecoration.underline : TextDecoration.none,
         ),
       ),
     );
