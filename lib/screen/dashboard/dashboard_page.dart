@@ -13,6 +13,7 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   TextEditingController search = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,12 +22,12 @@ class _DashBoardState extends State<DashBoard> {
         shadowColor: Colors.white,
         surfaceTintColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 14.0),
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 14.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Devicial',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
               ),
@@ -42,14 +43,22 @@ class _DashBoardState extends State<DashBoard> {
               //     ),
               //   ),
               // ),
-              Icon(
-                Icons.person,
-                size: 28,
+              Builder(
+                builder: (context) => IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Scaffold.of(context).openEndDrawer();
+                  },
+                ),
               ),
             ],
           ),
         ),
+        // leading: new Container(),
+        actions: <Widget>[Container()],
       ),
+      endDrawer: NavigationDrawer(),
+      endDrawerEnableOpenDragGesture: true,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 15.0),
@@ -107,6 +116,42 @@ class _DashBoardState extends State<DashBoard> {
       floatingActionButton: NewPostButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation
           .centerDocked, // Adjust this based on your preference
+    );
+  }
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          SizedBox(
+            height: 100,
+            child: const DrawerHeader(
+              decoration: BoxDecoration(
+                color: ThemeColor.backgroundDark,
+              ),
+              child: Text('Drawer Header'),
+            ),
+          ),
+          ListTile(
+            title: const Text('Item 1'),
+            onTap: () {
+              // Update the UI based on the selection
+            },
+          ),
+          ListTile(
+            title: const Text('Item 2'),
+            onTap: () {
+              // Update the UI based on the selection
+            },
+          ),
+        ],
+      ),
     );
   }
 }
