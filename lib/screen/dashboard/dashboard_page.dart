@@ -1,6 +1,6 @@
-import 'package:devicial_mobile/materials/color.dart';
 import 'package:devicial_mobile/materials/widget/dashboard_card.dart';
 import 'package:devicial_mobile/materials/widget/new_post_button.dart';
+import 'package:devicial_mobile/materials/widget/sidebar.dart';
 import 'package:devicial_mobile/materials/widget/text_button_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +57,7 @@ class _DashBoardState extends State<DashBoard> {
         // leading: new Container(),
         actions: <Widget>[Container()],
       ),
-      endDrawer: NavigationDrawer(),
+      endDrawer: SideBar(),
       endDrawerEnableOpenDragGesture: true,
       body: SingleChildScrollView(
         child: Padding(
@@ -116,42 +116,6 @@ class _DashBoardState extends State<DashBoard> {
       floatingActionButton: NewPostButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation
           .centerDocked, // Adjust this based on your preference
-    );
-  }
-}
-
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          SizedBox(
-            height: 100,
-            child: const DrawerHeader(
-              decoration: BoxDecoration(
-                color: ThemeColor.backgroundDark,
-              ),
-              child: Text('Drawer Header'),
-            ),
-          ),
-          ListTile(
-            title: const Text('Item 1'),
-            onTap: () {
-              // Update the UI based on the selection
-            },
-          ),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-              // Update the UI based on the selection
-            },
-          ),
-        ],
-      ),
     );
   }
 }
