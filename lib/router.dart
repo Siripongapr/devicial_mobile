@@ -1,3 +1,4 @@
+import 'package:devicial_mobile/screen/dashboard/dashboard_page.dart';
 import 'package:devicial_mobile/screen/login/login_page.dart';
 import 'package:devicial_mobile/screen/login/register_page.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,10 @@ class RouterScreen {
         return MaterialPageRoute(
             settings: const RouteSettings(name: '/register'),
             builder: (_) => RegisterPage());
+      case '/dashboard':
+        return MaterialPageRoute(
+            settings: const RouteSettings(name: '/dashboard'),
+            builder: (_) => DashBoard());
 
       // case '/register':
       //   return MaterialPageRoute(

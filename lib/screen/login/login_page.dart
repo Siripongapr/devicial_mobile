@@ -2,6 +2,7 @@ import 'package:devicial_mobile/materials/color.dart';
 import 'package:devicial_mobile/materials/widget/button_widget.dart';
 import 'package:devicial_mobile/materials/widget/text_button_widget.dart';
 import 'package:devicial_mobile/materials/widget/textfield_widget.dart';
+import 'package:devicial_mobile/repository/login.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +15,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController login = TextEditingController();
   bool validate = false;
+  Login loginAPI = Login();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +70,10 @@ class _LoginPageState extends State<LoginPage> {
                     )),
                 ButtonWidget(
                   text: 'LOGIN',
-                  onPressed: () {
+                  onPressed: () async {
                     print(validate);
+                    await loginAPI.login();
+                    loginAPI.getInfo();
                     setState(() {
                       validate = !validate;
                     });
