@@ -23,3 +23,23 @@ class LoginCubit extends Cubit<LoginState> {
     emit(LoginInitial());
   }
 }
+
+class LogoutCubit extends Cubit<LogOutState> {
+  Auth authRepo;
+  LogoutCubit(this.authRepo) : super(LogoutInitial());
+
+  void logout() async {
+    emit(LogoutLoading());
+    try {
+      await authRepo.logout();
+      emit(LogoutSuccess());
+    } catch (e) {
+      emit(LogOutError());
+      print("error $e");
+    }
+  }
+
+  void resetLogoutState() {
+    emit(LogoutInitial());
+  }
+}

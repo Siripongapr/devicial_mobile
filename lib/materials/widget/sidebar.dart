@@ -1,11 +1,55 @@
 import 'package:devicial_mobile/blocs/login/login_cubit.dart';
 import 'package:devicial_mobile/materials/color.dart';
+import 'package:devicial_mobile/materials/widget/dialog_widget.dart';
+import 'package:devicial_mobile/repository/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SideBar extends StatelessWidget {
-  const SideBar({Key? key, this.username = 'username'}) : super(key: key);
+  SideBar({Key? key, this.username = 'username'}) : super(key: key);
   final String username;
+  LogoutCubit logoutCubit = LogoutCubit(Auth());
+  showCustomDialog(
+      BuildContext context, String text, void Function()? onPressed) {
+    showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return DialogBox(
+          child: SizedBox(
+            height: 288,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    text != '' ? text : '',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(onPressed: onPressed, child: Text('confirm')),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text('back')),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Auth auth = Auth();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -94,6 +138,13 @@ class SideBar extends StatelessWidget {
                 ),
                 onTap: () {
                   print("Sign out");
+                  // logoutCubit.logout();
+                  showCustomDialog(context, 'Logout confirmation', () {
+                    logoutCubit.logout();
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/login', (route) => false);
+                  });
+                  // auth.logout();
                 },
               ),
             ],

@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<LoginCubit>(create: (context) => LoginCubit(Auth())),
+        BlocProvider<LogoutCubit>(create: (context) => LogoutCubit(Auth())),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
