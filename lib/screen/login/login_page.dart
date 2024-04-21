@@ -1,9 +1,11 @@
+import 'package:devicial_mobile/blocs/login/login_cubit.dart';
 import 'package:devicial_mobile/materials/color.dart';
 import 'package:devicial_mobile/materials/widget/button_widget.dart';
 import 'package:devicial_mobile/materials/widget/text_button_widget.dart';
 import 'package:devicial_mobile/materials/widget/textfield_widget.dart';
-import 'package:devicial_mobile/repository/login.dart';
+import 'package:devicial_mobile/repository/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,9 +15,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController login = TextEditingController();
+  final TextEditingController username = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
   bool validate = false;
-  Login loginAPI = Login();
+  // Auth loginAPI = Auth();
+  late LoginCubit loginCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    loginCubit = BlocProvider.of<LoginCubit>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                 ),
                 TextFormFieldWidget(
-                  controller: login,
+                  controller: username,
                   left: 48,
                   right: 48,
                   top: 112,
@@ -39,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   hintText: 'username',
                 ),
                 TextFormFieldWidget(
-                  controller: login,
+                  controller: password,
                   left: 48,
                   right: 48,
                   bottom: 6,
@@ -68,19 +80,37 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       text: 'create an account',
                     )),
-                ButtonWidget(
-                  text: 'LOGIN',
-                  onPressed: () async {
-                    print(validate);
-                    await loginAPI.login();
-                    loginAPI.getInfo();
-                    setState(() {
-                      validate = !validate;
-                    });
-                    Navigator.pushNamed(context, '/dashboard');
-                  },
-                  left: 86,
-                  right: 86,
+                Column(
+                  children: [
+                    BlocListener<LoginCubit, LoginState>(
+                      listener: (context, state) {
+                        if (state is LoginLoading) {
+                          print('loading . . .');
+                        } else if (state is LoginSuccess) {
+                          Navigator.pushNamed(context, '/dashboard');
+                        } else if (state is LoginError) {
+                          print('error ! ! !');
+                          setState(() {
+                            validate = true;
+                          });
+                        }
+                      },
+                      child: ButtonWidget(
+                        text: 'LOGIN',
+                        onPressed: () async {
+                          print(validate);
+                          loginCubit.login(username.text, password.text);
+                          // await loginAPI.login(username.text, password.text);
+                          // loginAPI.getInfo();
+                          // setState(() {
+                          //   validate = !validate;
+                          // });
+                        },
+                        left: 86,
+                        right: 86,
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),

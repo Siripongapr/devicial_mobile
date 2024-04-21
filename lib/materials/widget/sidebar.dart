@@ -1,5 +1,7 @@
+import 'package:devicial_mobile/blocs/login/login_cubit.dart';
 import 'package:devicial_mobile/materials/color.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SideBar extends StatelessWidget {
   const SideBar({Key? key, this.username = 'username'}) : super(key: key);
@@ -35,7 +37,20 @@ class SideBar extends StatelessWidget {
                             const SizedBox(
                               width: 10,
                             ),
-                            Text(username),
+                            BlocBuilder<LoginCubit, LoginState>(
+                              builder: (context, state) {
+                                if (state is LoginInitial ||
+                                    state is LoginLoading) {
+                                  return Text('Loading user...');
+                                } else if (state is LoginSuccess) {
+                                  return Text(state.user.username);
+                                } else if (state is LoginError) {
+                                  return Text('Error loading user');
+                                } else {
+                                  return Text('Unknown state');
+                                }
+                              },
+                            ),
                           ],
                         ),
                       ),
