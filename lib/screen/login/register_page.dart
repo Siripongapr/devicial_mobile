@@ -60,6 +60,35 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  void showLoading(BuildContext context) {
+    showDialog<void>(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            height: 288,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(), // Replace with your loading indicator widget
+                  SizedBox(height: 20),
+                  Text(
+                    'REGISTERING...',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -137,6 +166,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     });
                   } else if (state is RegisterSuccess) {
                     showCustomDialog(context);
+                  } else if (state is RegisterLoading) {
+                    showLoading(context);
                   }
                 }),
                 !validate ? Container() : Text('data'),
