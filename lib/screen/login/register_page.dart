@@ -97,113 +97,116 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ThemeColor.background,
-      appBar: AppBar(),
-      extendBodyBehindAppBar: true, // set app
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 148),
-            child: Column(
-              children: [
-                const Text(
-                  'REGISTER',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
-                ),
-                TextFormFieldWidget(
-                  controller: username,
-                  top: 45,
-                  bottom: btTf.b,
-                  left: hzt.l,
-                  right: hzt.r,
-                  hintText: 'username',
-                ),
-                TextFormFieldWidget(
-                  controller: password,
-                  bottom: btTf.b,
-                  left: hzt.l,
-                  right: hzt.r,
-                  hintText: 'password',
-                ),
-                TextFormFieldWidget(
-                  controller: email,
-                  bottom: btTf.b,
-                  left: hzt.l,
-                  right: hzt.r,
-                  hintText: 'email',
-                ),
-                Row(
+    return MultiBlocListener(
+        listeners: [
+          BlocListener<RegisterCubit, RegisterState>(
+            listener: (context, state) {
+              if (state is RegisterError) {
+                Navigator.pop(context);
+                setState(() {
+                  validate = true;
+                });
+              } else if (state is RegisterSuccess) {
+                Navigator.pop(context);
+                showCustomDialog(context);
+              } else if (state is RegisterLoading) {
+                showLoading(context);
+              }
+            },
+          ),
+        ],
+        child: Scaffold(
+          backgroundColor: ThemeColor.background,
+          appBar: AppBar(),
+          extendBodyBehindAppBar: true, // set app
+          body: SingleChildScrollView(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 148),
+                child: Column(
                   children: [
-                    Flexible(
-                        child: DatePick(
-                      dateController: date,
-                      padding: hzt.l,
-                    )),
-                    const SizedBox(
-                      width: 10,
+                    const Text(
+                      'REGISTER',
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                     ),
-                    Flexible(
-                      child: TextFormFieldWidget(
-                        controller: gender,
-                        right: hzt.r,
-                        hintText: 'gender',
-                      ),
+                    TextFormFieldWidget(
+                      controller: username,
+                      top: 45,
+                      bottom: btTf.b,
+                      left: hzt.l,
+                      right: hzt.r,
+                      hintText: 'username',
                     ),
+                    TextFormFieldWidget(
+                      controller: password,
+                      bottom: btTf.b,
+                      left: hzt.l,
+                      right: hzt.r,
+                      hintText: 'password',
+                    ),
+                    TextFormFieldWidget(
+                      controller: email,
+                      bottom: btTf.b,
+                      left: hzt.l,
+                      right: hzt.r,
+                      hintText: 'email',
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                            child: DatePick(
+                          dateController: date,
+                          padding: hzt.l,
+                        )),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Flexible(
+                          child: TextFormFieldWidget(
+                            controller: gender,
+                            right: hzt.r,
+                            hintText: 'gender',
+                          ),
+                        ),
+                      ],
+                    ),
+                    !validate
+                        ? Container()
+                        : Padding(
+                            padding: EdgeInsets.only(right: hzt.r),
+                            child: const Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                'please enter all data',
+                                style: TextStyle(
+                                    color: ThemeColor.validateError,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 10),
+                              ),
+                            ),
+                          ),
+                    ButtonWidget(
+                      top: 259,
+                      text: 'Register',
+                      onPressed: () {
+                        registerCubit.register(
+                          username.text,
+                          password.text,
+                          email.text,
+                          date.text,
+                          gender.text,
+                        );
+                      },
+                      left: 86,
+                      right: 86,
+                    )
                   ],
                 ),
-                BlocConsumer<RegisterCubit, RegisterState>(
-                    builder: (context, state) {
-                  // if (state is RegisterError) {
-                  //   return Text('error');
-                  // } else {
-                  return Container();
-                  // }
-                }, listener: (context, state) {
-                  if (state is RegisterError) {
-                    setState(() {
-                      validate = true;
-                    });
-                  } else if (state is RegisterSuccess) {
-                    showCustomDialog(context);
-                  } else if (state is RegisterLoading) {
-                    showLoading(context);
-                  }
-                }),
-                !validate ? Container() : Text('data'),
-                ButtonWidget(
-                  top: 259,
-                  text: 'Register',
-                  onPressed: () {
-                    // if (username.text != '' &&
-                    //     password.text != '' &&
-                    //     email.text != '' &&
-                    //     date.text != '' &&
-                    //     gender.text != '') {
-                    registerCubit.register(
-                      username.text,
-                      password.text,
-                      email.text,
-                      date.text,
-                      gender.text,
-                    );
-                    // } else {
-                    //   print(validate);
-                    //   setState(() {
-                    //     validate = !validate;
-                    //   });
-                    // }
-                    // showCustomDialog(context);
-                  },
-                  left: 86,
-                  right: 86,
-                )
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }
 
