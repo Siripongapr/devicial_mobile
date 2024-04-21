@@ -1,9 +1,12 @@
+import 'package:devicial_mobile/blocs/register/register_cubit.dart';
 import 'package:devicial_mobile/materials/color.dart';
 import 'package:devicial_mobile/materials/widget/button_widget.dart';
+import 'package:devicial_mobile/materials/widget/date_pick.dart';
 import 'package:devicial_mobile/materials/widget/dialog_widget.dart';
 import 'package:devicial_mobile/materials/widget/text_button_widget.dart';
 import 'package:devicial_mobile/materials/widget/textfield_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,7 +16,12 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final TextEditingController login = TextEditingController();
+  final TextEditingController username = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController date = TextEditingController();
+  final TextEditingController gender = TextEditingController();
+  late RegisterCubit registerCubit;
   bool validate = false;
   PaddingValue hzt = PaddingValue(t: 0, b: 0, l: 48, r: 48);
   PaddingValue btTf = PaddingValue(t: 0, b: 24, l: 0, r: 0);
@@ -53,6 +61,12 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    registerCubit = BlocProvider.of<RegisterCubit>(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColor.background,
@@ -69,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
                 ),
                 TextFormFieldWidget(
-                  controller: login,
+                  controller: username,
                   top: 45,
                   bottom: btTf.b,
                   left: hzt.l,
@@ -77,49 +91,78 @@ class _RegisterPageState extends State<RegisterPage> {
                   hintText: 'username',
                 ),
                 TextFormFieldWidget(
-                  controller: login,
+                  controller: password,
                   bottom: btTf.b,
                   left: hzt.l,
                   right: hzt.r,
                   hintText: 'password',
                 ),
                 TextFormFieldWidget(
-                  controller: login,
+                  controller: email,
                   bottom: btTf.b,
                   left: hzt.l,
                   right: hzt.r,
-                  hintText: 're-enter password',
+                  hintText: 'email',
                 ),
                 Row(
                   children: [
                     Flexible(
-                      child: TextFormFieldWidget(
-                        controller: login,
-                        left: hzt.l,
-                        hintText: 'date',
-                      ),
-                    ),
+                        child: DatePick(
+                      dateController: date,
+                      padding: hzt.l,
+                    )),
                     const SizedBox(
                       width: 10,
                     ),
                     Flexible(
                       child: TextFormFieldWidget(
-                        controller: login,
+                        controller: gender,
                         right: hzt.r,
                         hintText: 'gender',
                       ),
                     ),
                   ],
                 ),
+                BlocConsumer<RegisterCubit, RegisterState>(
+                    builder: (context, state) {
+                  // if (state is RegisterError) {
+                  //   return Text('error');
+                  // } else {
+                  return Container();
+                  // }
+                }, listener: (context, state) {
+                  if (state is RegisterError) {
+                    setState(() {
+                      validate = true;
+                    });
+                  } else if (state is RegisterSuccess) {
+                    showCustomDialog(context);
+                  }
+                }),
+                !validate ? Container() : Text('data'),
                 ButtonWidget(
                   top: 259,
                   text: 'Register',
                   onPressed: () {
-                    print(validate);
-                    setState(() {
-                      validate = !validate;
-                    });
-                    showCustomDialog(context);
+                    // if (username.text != '' &&
+                    //     password.text != '' &&
+                    //     email.text != '' &&
+                    //     date.text != '' &&
+                    //     gender.text != '') {
+                    registerCubit.register(
+                      username.text,
+                      password.text,
+                      email.text,
+                      date.text,
+                      gender.text,
+                    );
+                    // } else {
+                    //   print(validate);
+                    //   setState(() {
+                    //     validate = !validate;
+                    //   });
+                    // }
+                    // showCustomDialog(context);
                   },
                   left: 86,
                   right: 86,

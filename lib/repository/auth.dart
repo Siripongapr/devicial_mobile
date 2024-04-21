@@ -120,6 +120,7 @@ class Auth {
       }
     } catch (e) {
       print(e);
+      throw Exception('Failed to register: $e');
     }
   }
 
