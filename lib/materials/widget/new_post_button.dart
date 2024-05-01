@@ -2,8 +2,16 @@ import 'package:devicial_mobile/materials/color.dart';
 import 'package:flutter/material.dart';
 
 class NewPostButton extends StatelessWidget {
-  const NewPostButton({super.key});
-
+  NewPostButton(
+      {super.key,
+      this.onPressed,
+      this.text = 'New post +',
+      this.heroTag,
+      this.cancel = false});
+  Function()? onPressed;
+  Object? heroTag;
+  String text;
+  bool cancel;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -12,18 +20,20 @@ class NewPostButton extends StatelessWidget {
         width: 113,
         height: 31,
         child: FloatingActionButton(
-          backgroundColor: ThemeColor.button,
+          elevation: 0,
+          heroTag: heroTag,
+          backgroundColor: cancel ? ThemeColor.buttonCancel : ThemeColor.button,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10), // Set border radius
-            // You can also use other shapes like StadiumBorder, CircleBorder, etc.
+            borderRadius: BorderRadius.circular(10),
           ),
-          onPressed: () {
-            // Add your action here
-            print('Floating button pressed');
-          },
+          onPressed: onPressed,
           child: Text(
-            'New post +',
-            style: TextStyle(color: Colors.white),
+            text,
+            style: TextStyle(
+              color: cancel ? ThemeColor.fontBlack : Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
       ),

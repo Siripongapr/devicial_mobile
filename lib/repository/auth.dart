@@ -6,14 +6,14 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
-String ip = '192.168.0.101';
+String ip = '192.168.0.100';
 
 class Auth {
   late Dio dio;
   late PersistCookieJar cookieJar;
 
   Auth._privateConstructor() {
-    _init();
+    init();
   }
 
   static final Auth _instance = Auth._privateConstructor();
@@ -22,7 +22,7 @@ class Auth {
     return _instance;
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     cookieJar = await _getCookieJar();
     dio = Dio();
     dio.interceptors.add(CookieManager(cookieJar));
@@ -36,6 +36,10 @@ class Auth {
 
   Future<Directory> _getApplicationDocumentsDirectory() async {
     return await getApplicationDocumentsDirectory();
+  }
+
+  Dio getDioInstance() {
+    return dio;
   }
 
   Future login(String username, String password) async {

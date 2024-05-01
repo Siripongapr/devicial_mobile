@@ -1,8 +1,10 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:devicial_mobile/blocs/login/login_cubit.dart';
+import 'package:devicial_mobile/blocs/post/post_cubit.dart';
 import 'package:devicial_mobile/blocs/register/register_cubit.dart';
 import 'package:devicial_mobile/materials/color.dart';
 import 'package:devicial_mobile/repository/auth.dart';
+import 'package:devicial_mobile/repository/post.dart';
 import 'package:devicial_mobile/router.dart';
 import 'package:devicial_mobile/screen/login/login_page.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<LoginCubit>(create: (context) => LoginCubit(Auth())),
         BlocProvider<LogoutCubit>(create: (context) => LogoutCubit(Auth())),
         BlocProvider<RegisterCubit>(create: (context) => RegisterCubit(Auth())),
+        BlocProvider<PostCubit>(create: (context) => PostCubit(Post(Auth()))),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
