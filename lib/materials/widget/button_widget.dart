@@ -26,22 +26,20 @@ class ButtonWidget extends StatelessWidget {
       child: SizedBox(
           height: 48,
           width: double.infinity,
-          child: Expanded(
-            child: ElevatedButton(
-              onPressed: onPressed,
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                  backgroundColor: ThemeColor.textBox,
-                  foregroundColor: ThemeColor.textBox),
-              child: Text(
-                text,
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800),
-              ),
+          child: ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                backgroundColor: ThemeColor.textBox,
+                foregroundColor: ThemeColor.textBox),
+            child: Text(
+              text,
+              style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800),
             ),
           )),
     );
